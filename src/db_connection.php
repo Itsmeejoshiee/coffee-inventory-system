@@ -13,4 +13,5 @@ try {
     // If an exception is caught, display an error message
     echo "Connection to the Database failed: " . $e->getMessage();
 }
+
 ?>

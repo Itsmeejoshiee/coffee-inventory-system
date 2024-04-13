@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"],
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover,
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form action="#" method="post">
+        <h2>Inventory Management Form</h2>
+        <label for="customer_id">Customer ID:</label>
+        <input type="text" id="customer_id" name="customer_id" required>
+
+        <label for="ingredient_name">Ingredient Name:</label>
+        <input type="text" id="ingredient_name" name="ingredient_name" required>
+
+        <label for="stocks">Stocks:</label>
+        <input type="number" id="stocks" name="stocks" required>
+
+        <label for="spoilage_number">Spoilage Threshold:</label>
+        <input type="number" id="spoilage_number" name="spoilage_number" required>
+
+        <label for="restock_number">Restock Threshold:</label>
+        <input type="number" id="restock_number" name="restock_number" required>
+
+        <button class="button" onclick="switchTemplate('add')">Add Record</button>
+        <button class="button" onclick="switchTemplate('modify')">Modify Record</button>
+        <button class="button" onclick="switchTemplate('delete')">Delete Record</button>
+    </form>
+    <script>
+        function switchTemplate(template) {
+            switch (template) {
+                case 'add':
+                    document.querySelector('form').action = 'add_record.php';
+                    myfunction(); 
+                    break;
+                case 'modify':
+                    document.querySelector('form').action = 'modify_record.php';
+                    myfunction(); 
+                    break;
+                case 'delete':
+                    document.querySelector('form').action = 'delete_record.php';
+                    myfunction(); 
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function myfunction() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "records.php");
+            xhttp.setRequestHeader("Content-type", "file:///D:/Documents/work%20stuffs/records.html");
+            xhttp.onload = function() {
+                document.getElementById("inventory").innerHTML = this.responseText;
+            }
+            
+        }
+    </script>
+</body>
+</html>
