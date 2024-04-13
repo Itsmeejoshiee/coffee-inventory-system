@@ -57,56 +57,26 @@
     </style>
 </head>
 <body>
-    <form action="#" method="post">
+    <form method ="post" action="records.php">
         <h2>Inventory Management Form</h2>
-        <label for="customer_id">Customer ID:</label>
-        <input type="text" id="customer_id" name="customer_id" required>
+        <label for="id">Customer ID:</label>
+        <input type="text" id="id" name="id" required>
 
-        <label for="ingredient_name">Ingredient Name:</label>
-        <input type="text" id="ingredient_name" name="ingredient_name" required>
+        <label for="ingredient">Ingredient Name:</label>
+        <input type="text" id="ingredient" name="ingredient" required>
 
         <label for="stocks">Stocks:</label>
-        <input type="number" id="stocks" name="stocks" required>
+        <input type="number" id="totalInventory" name="totalInventory" required>
 
         <label for="spoilage_number">Spoilage Threshold:</label>
-        <input type="number" id="spoilage_number" name="spoilage_number" required>
+        <input type="number" id="spoilageNumber" name="spoilageNumber" required>
 
         <label for="restock_number">Restock Threshold:</label>
-        <input type="number" id="restock_number" name="restock_number" required>
+        <input type="number" id="restockNumber" name="restockNumber" required>
 
-        <button class="button" onclick="switchTemplate('add')">Add Record</button>
-        <button class="button" onclick="switchTemplate('modify')">Modify Record</button>
-        <button class="button" onclick="switchTemplate('delete')">Delete Record</button>
+        <button class="button" type="submit" name="add">Add Record</button>
+        <button class="button" type="submit" name="modify">Modify Record</button>
+        <button class="button" type="submit" name="delete">Delete Record</button>
     </form>
-    <script>
-        function switchTemplate(template) {
-            switch (template) {
-                case 'add':
-                    document.querySelector('form').action = 'records.php';
-                    myfunction(); 
-                    break;
-                case 'modify':
-                    document.querySelector('form').action = 'records.php';
-                    myfunction(); 
-                    break;
-                case 'delete':
-                    document.querySelector('form').action = 'records.php';
-                    myfunction(); 
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        function myfunction() {
-            const xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "records.php");
-            xhttp.setRequestHeader("Content-type", "file:///D:/Documents/work%20stuffs/records.html");
-            xhttp.onload = function() {
-                document.getElementById("inventory").innerHTML = this.responseText;
-            }
-            
-        }
-    </script>
 </body>
 </html>
