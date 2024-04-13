@@ -8,24 +8,36 @@
 <body>
     <?php   
     require 'db_connection.php';
-    function addRecord($pdo,$id, $ingredient, $stock){
+
+    /* 
+    id: A unique identifier for each ingredient.
+    ingredient: Name of the ingredient.
+    totalInventory: Quantity of the ingredient currently in stock.
+    spoilageNumber: The threshold quantity at which the ingredient is considered spoiled and needs to be discarded.
+    restockNumber: The threshold quantity at which a notification is triggered to restock the ingredient.
+    */
+    function addRecord($pdo,$id, $ingredient, $totalInventory,$spoilageNumber,$restockNumber){
         try{
-            $stmt = $pdo->prepare("INSERT INTO inventory (name, quantity, price) VALUES (:name, :quantity, :price)");
-            $stmt->bindParam(':name', $id);
-            $stmt->bindParam(':quantity', $ingredient);
-            $stmt->bindParam(':price', $stock);
+            $stmt = $pdo->prepare("INSERT INTO inventory (id, ingredient, totalInventory, spoilageNumber, restockNumber) VALUES (:id, :ingredient, :totalInventory, :spoilageNumber, :restockNumber)");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':ingredient', $ingredient);
+            $stmt->bindParam(':totalInventory', $totalInventory);
+            $stmt->bindParam(':spoilageNumber', $spoilageNumber);
+            $stmt->bindParam(':restockNumber', $restockNumber);
             $stmt->execute();
             echo "New record added successfully";
         }catch(PDOException $e){
             echo "Error: " . $e->getMessage();
         }
     }
-    function editRecord($id,$ingredient, $stock){}
+    function editRecord($id, $ingredient, $totalInventory,$spoilageNumber,$restockNumber){}
         try{
-            $stmt = $pdo->prepare("UPDATE INTO inventory (name, quantity, price) VALUES (:name, :quantity, :price)");
-            $stmt->bindParam(':name', $id);
-            $stmt->bindParam(':quantity', $ingredient);
-            $stmt->bindParam(':price', $stock);
+            $stmt = $pdo->prepare("UPDATE INTO inventory (id, ingredient, totalInventory, spoilageNumber, restockNumber) VALUES (:id, :ingredient, :totalInventory, :spoilageNumber, :restockNumber)");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':ingredient', $ingredient);
+            $stmt->bindParam(':totalInventory', $totalInventory);
+            $stmt->bindParam(':spoilageNumber', $spoilageNumber);
+            $stmt->bindParam(':restockNumber', $restockNumber);
             $stmt->execute();
             echo "Record updated Successfully";
         }catch(PDOException $e){
@@ -41,8 +53,6 @@
             echo "Error: " . $e->getMessage();
         }
 
-
-    addRecord($pdo,$id,$ingredient,$stock);
     ?>
 </body>
 </html>
