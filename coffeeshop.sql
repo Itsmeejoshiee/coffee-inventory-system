@@ -26,7 +26,7 @@ CREATE TABLE `inventory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ingredient` varchar(255) NOT NULL,
   `totalInventory` int(11) NOT NULL,
-  `spoilageNumber` int(11) NOT NULL,
+  `expiryDate` DATE NOT NULL,
   `restockNumber` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

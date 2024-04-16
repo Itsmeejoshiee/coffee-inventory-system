@@ -1,0 +1,122 @@
+.tab {
+    width: 70%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 2px;
+}
+
+
+
+table{                                  
+width: 100%;                            /*set table to 100% width or else tyhe table will be uneven in size and placement if not set*/ 
+}
+
+th, td{                                /*these are table header cells (for headers), and table data cells (for cells in a row/column) */   
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;      /*adds lines below each cell, sets them at 1 px size, and solid*/
+}
+
+th{
+    background-color: #f2f2f2;          
+    font-weight: bold;
+    position: sticky;                   /*primarily used to set the header unmovable when user scrolls */
+    top: 0;
+    z-index: 1;
+}
+.table-container{                      
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+    margin-top: 20px;
+}
+body{
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+form{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+h2{
+    text-align: center;
+    color: #333;
+}
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+}
+input[type="text"],
+input[type="number"] {
+    width: calc(100% - 12px);
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+input[type="submit"],
+.button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+input[type="submit"]:hover,
+.button:hover {
+    background-color: #45a049;
+}
+.bgTable{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 580px;
+    margin-left:20px;
+    max-height: 350px;
+
+}
+.bgTable1{
+    background-color: #fff;
+    padding: 20px;
+    width: 500px;
+    margin-left:20px;
+    max-height: 2250px;
+}
+.bg-errors{                         /*currently unused */
+    background-color: #fff;
+    padding: 20px;
+    width: 500px;
+    margin-left:20px;
+    max-height: 2250px;
+
+}
+.scroll{                            /*enable scrolling for table */
+    max-height: 300px;
+    overflow-y: auto;
+}
+.font{
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: bold;
+    font-style: normal;
+}
