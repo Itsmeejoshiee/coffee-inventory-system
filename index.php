@@ -86,16 +86,21 @@
                     <th>Restock</th>
                 </tr>
                 <?php
-                $host = "localhost";
+                $host = "localhost";                                                         # initialize host, username, password and database name
                 $dbusername = "root";
                 $dbpassword = "";
                 $dbname = "coffeeshop";
 
                 try{
-                    $connection = mysqli_connect($host, $dbusername, $dbpassword, $dbname);
-                } catch(mysqli_sql_exception){
-                    echo "Could not connect!";
+                    $connection = mysqli_connect($host, $dbusername, $dbpassword, $dbname);  # connect to MYSQL XAMPP database
+                } catch(mysqli_sql_exception){                                               # handle exception of connection failed
+                    echo "failed to connect to the coffeeshop database.";
                 }
+                $sqlSum = "SELECT SUM(totalInventory) AS total FROM inventory";           # select query to fetch sum of all stocks, alias = total
+                $resultSum = $connection->query($sqlSum);                                 # calls query to execute sql query inside $sqlSum, store results in result 2
+                $row = $resultSum->fetch_assoc();                                         # fetches data from a row from mysql
+                $totalInventory = $row['total'];                                          # has access to alias total fromthe sql query, results are stored in total inventory.
+                echo "Total Inventory: " . $totalInventory;
 
                 $sqlQuery = "SELECT *  from inventory" ;
                 $result = $connection-> query($sqlQuery);
@@ -106,6 +111,7 @@
                 } else {
                     echo "0 results";
                 }
+    
                 ?>
             </table>
             </div>
