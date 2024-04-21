@@ -15,6 +15,7 @@ class records {
         try {
             $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
         } catch(PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -24,8 +25,11 @@ class records {
         return $this->pdo;
     }
 }
+    
+
 
 class RecordManager extends records {
+    
     public function __construct($host, $username, $password, $dbname) {
         parent::__construct($host, $username, $password, $dbname);
     }
@@ -53,6 +57,7 @@ class RecordManager extends records {
                 $stmtInsert->bindParam(':expirationDate', $expirationDate);
                 $stmtInsert->bindParam(':restockNumber', $restockNumber);
                 $stmtInsert->execute();
+                
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -108,12 +113,54 @@ class RecordManager extends records {
     }
 }
 
-// Usage
-$host = "localhost";
+// Usage - mysql login details
+$host = "localhost";                            
 $username = "root";
 $password = "";
 $dbname = "coffeeshop";
+$records = new records($host, $username, $password, $dbname);                  // create object of class record
+$pdo = $records->getPdo();                                                     // gets pdo to be used in the functions to connect to ddatabse,
+$recordManager = new RecordManager($host, $username, $password, $dbname);      // create object of class RecordManager
 
-$recordManager = new RecordManager($host, $username, $password, $dbname);
+
+
+
+// This is where index.php lands --- decision structure checks whether user wanted to add/modify/restock/delete
+if ($_SERVER["REQUEST_METHOD"] == "POST") {                                                           // acquire form from html, check if = "post"
+    if (isset($_POST['add'])) {
+        $id = $_POST['id'];
+        $ingredient = $_POST['ingredient'];
+        $totalInventory = $_POST['totalInventory'];
+        $expirationDate = date('Y-m-d', strtotime($_POST['expirationDate']));                          // convert date input from html to follow year month date format of mysql (use string to time function)
+        $restockNumber = $_POST['restockNumber'];
+        $recordManager->addRecord($id, $ingredient, $totalInventory, $expirationDate, $restockNumber); // function call (use object of the class to call addRecord())
+    } elseif (isset($_POST['modify'])) {
+        $id = $_POST['id_to_update'];
+        $ingredient = $_POST['new_ingredient'];
+        $totalInventory = $_POST['new_totalInventory'];
+        $expirationDate = date('Y-m-d', strtotime($_POST['expirationDate']));
+        $restockNumber = $_POST['new_restockNumber'];
+        $recordManager->modifyRecord($pdo, $id, $ingredient, $totalInventory, $expirationDate, $restockNumber); // function call
+
+    } elseif (isset($_POST['restock'])) {
+        $id = $_POST['id'];
+        $restockAmount = $_POST['restocked_totalInventory'];
+        $restockNumber = $_POST['restockNumber'];
+        $recordManager->restockRecord($pdo, $id, $restockAmount, $restockNumber);                               // function call
+        
+
+    } elseif (isset($_POST['delete'])) {
+        // Check if delete_id is set
+        if (isset($_POST['delete_id'])) {
+
+            // Delete record with delete_id
+            $id_to_delete = $_POST['delete_id'];
+            $recordManager->deleteRecord($pdo, $id_to_delete);                                                   // function call
+        } else {
+            echo "Please provide an ID to delete.";
+        }
+    }
+}
+
 
 ?>
