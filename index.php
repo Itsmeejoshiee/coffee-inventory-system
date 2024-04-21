@@ -13,7 +13,20 @@
     <!-- Tab buttons -->
     <button class="tab" onclick="openTab(event, 'add')">Add</button>
     <button class="tab" onclick="openTab(event, 'modify')">Modify</button>
+    <button class="tab" onclick="openTab(event, 'restock')">Restock</button>
     <button class="tab" onclick="openTab(event, 'delete')">Delete</button>
+
+</div>
+    <!-- Form for restocking a record -->
+    <div id="restock" class="tabContent">
+    <form method="post" action="records.php">
+        <h2 class="font">Restock</h2>
+        <label for="id_to_restock">Ingredient ID:</label>
+        <input type="text" id="id" name="id" required>
+        <label for="restockNumber">Add new stock:</label>
+        <input type="text" id="restocked_totalInventory" name="restocked_totalInventory" required>
+        <button class="button" type="submit" name="restock">Restock Record</button>
+    </form>
 </div>
 
     <!-- Form for adding a record -->
@@ -29,8 +42,8 @@
         <label for="stocks">Stocks:</label>
         <input type="number" id="totalInventory" name="totalInventory" required>
 
-        <label for="spoilage_number">Spoilage Threshold:</label>
-        <input type="number" id="spoilageNumber" name="spoilageNumber" required>
+        <label for="expirationDate">Expiration Date:</label>
+        <input type="date" id="expirationDate" name="expirationDate" required>
 
         <label for="restock_number">Restock Threshold:</label>
         <input type="number" id="restockNumber" name="restockNumber" required>
@@ -52,8 +65,8 @@
         <label for="new_totalInventory">New Stocks:</label>
         <input type="number" id="new_totalInventory" name="new_totalInventory">
 
-        <label for="new_spoilageNumber">New Spoilage Threshold:</label>
-        <input type="number" id="new_spoilageNumber" name="new_spoilageNumber">
+        <label for="expirationDate">New Expiraation Date:</label>
+        <input type="date" id="expirationDate" name="expirationDate">
 
         <label for="new_restockNumber">New Restock Threshold:</label>
         <input type="number" id="new_restockNumber" name="new_restockNumber">
@@ -96,6 +109,16 @@
                 } catch(mysqli_sql_exception){                                               # handle exception of connection failed
                     echo "failed to connect to the coffeeshop database.";
                 }
+
+
+                $sqlDate = "SELECT expirationDate FROM inventory";
+                $resultDate = $connection->query($sqlDate);
+                $currentDate = date("Y/m/d");
+
+                if (strtotime($currentDate) > strtotime($sqlDate)){
+                        echo "<script>alert('a product has expired!');</script>";
+                }
+
                 $sqlSum = "SELECT SUM(totalInventory) AS total FROM inventory";           # select query to fetch sum of all stocks, alias = total
                 $resultSum = $connection->query($sqlSum);                                 # calls query to execute sql query inside $sqlSum, store results in result 2
                 $row = $resultSum->fetch_assoc();                                         # fetches data from a row from mysql
@@ -106,11 +129,13 @@
                 $result = $connection-> query($sqlQuery);
                 if ($result->num_rows > 0) {
                     while ($rows = $result->fetch_assoc()) {
-                        echo "<tr><td>".$rows["id"]."</td><td>".$rows["ingredient"]."</td><td>".$rows["totalInventory"]."</td><td>".$rows["spoilageNumber"]."</td><td>".$rows["restockNumber"]."</td></tr>";
+                        echo "<tr><td>".$rows["id"]."</td><td>".$rows["ingredient"]."</td><td>".$rows["totalInventory"]."</td><td>".$rows["expirationDate"]."</td><td>".$rows["restockNumber"]."</td></tr>";
                     }
                 } else {
+
                     echo "0 results";
                 }
+                     
     
                 ?>
             </table>
